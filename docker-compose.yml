@@ -1,0 +1,35 @@
+---
+services:
+  weaviate:
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8080'
+    - --scheme
+    - http
+    - --write-timeout=600s
+    - --read-timeout=600s
+    image: cr.weaviate.io/semitechnologies/weaviate:1.32.0
+    ports:
+    - 8080:8080
+    - 50051:50051
+    volumes:
+    - ./.docker_data/weaviate:/var/lib/weaviate
+    restart: on-failure:0
+    environment:
+      CLIP_INFERENCE_API: 'http://xlm-roberta-base-ViT-B-32-laion5b_s13b_b90k:8080'
+      CLIP_WAIT_FOR_STARTUP: 'false'
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      CLUSTER_HOSTNAME: 'weaviate-0'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      MODULES_CLIENT_TIMEOUT: '120s'
+      GRPC_MAX_MESSAGE_SIZE: '30000000'
+      ENABLE_MODULES: 'multi2vec-clip'
+  xlm-roberta-base-ViT-B-32-laion5b_s13b_b90k:
+    image: docker.io/semitechnologies/multi2vec-clip:xlm-roberta-base-ViT-B-32-laion5b_s13b_b90k-1.4.1
+  google-siglip2-so400m-patch16-384:
+    image: semitechnologies/multi2vec-clip:google-siglip2-so400m-patch16-384-1.4.1
+...

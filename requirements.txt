@@ -1,0 +1,7 @@
+weaviate-client==4.16.1
+loguru==0.7.3
+datasets==3.6.0
+uuid==1.30
+requests==2.32.4
+ipykernel==6.29.5
+ipyplot==1.1.2
